@@ -67,7 +67,9 @@ for i in range(num_cases):
     if is_negative:
         start = 1
     # Go through each digit and check if non-odd
-    for j in range(start, num_digits + start):
+    # for j in range(start, num_digits + start):
+    j = start
+    while j < num_digits + start:
         current_digit = int(str_displayed[j])
         # See if current digit is odd
         if current_digit % 2 != 0:
@@ -77,12 +79,16 @@ for i in range(num_cases):
             trailing_num = int(str_displayed[j+1:])
             difference = magnitude - trailing_num
             if difference > trailing_num:
-                # Click down trailing_num times
-                num_clicks += trailing_num
-                num_displayed, str_displayed, num_digits = update_test_number(num_displayed, -trailing_num)
+                # Click down (trailing_num + 1) times: 123 -> 123 - (23 + 1) = 99
+                num_clicks += (trailing_num + 1)
+                prev_str = str_displayed
+                num_displayed, str_displayed, num_digits = update_test_number(num_displayed, -(trailing_num + 1))
+                j += len(str_displayed) - len(prev_str)
             else:
                 # Click up difference times
                 num_clicks += difference
                 num_displayed, str_displayed, num_digits = update_test_number(num_displayed, difference)
+        # Update j
+        j += 1
     print("Case #{0}: {1}".format(i + 1, num_clicks))
 
