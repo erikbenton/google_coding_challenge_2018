@@ -30,7 +30,15 @@ def quick_check(test_num, is_it_negative, number_digits):
             break
     if quick_check:
         print("Case #{0}: {1}".format(test_num + 1, "0"))
-    return
+        return True
+    return False
+
+
+def update_test_number(test_number, change):
+    test_number += change
+    new_str = str(test_number)
+    new_num_digits = len(new_str)
+    return test_number, new_str, new_num_digits
 
 
 # Number of test cases
@@ -50,4 +58,31 @@ for i in range(num_cases):
         num_digits -= 1
         is_negative = True
     # Quick check for already all non-odd numbers
-    quick_check(i, is_negative, num_digits)
+    if quick_check(i, is_negative, num_digits):
+        continue
+    # Number of clicks needed
+    num_clicks = 0
+    # Start index
+    start = 0
+    if is_negative:
+        start = 1
+    # Go through each digit and check if non-odd
+    for j in range(start, num_digits + start):
+        current_digit = int(str_displayed[j])
+        # See if current digit is odd
+        if current_digit % 2 != 0:
+            # Get the "magnitude" and trailing number
+            num_trailing_digits = len(str_displayed[j+1:])
+            magnitude = 10**num_trailing_digits
+            trailing_num = int(str_displayed[j+1:])
+            difference = magnitude - trailing_num
+            if difference > trailing_num:
+                # Click down trailing_num times
+                num_clicks += trailing_num
+                num_displayed, str_displayed, num_digits = update_test_number(num_displayed, -trailing_num)
+            else:
+                # Click up difference times
+                num_clicks += difference
+                num_displayed, str_displayed, num_digits = update_test_number(num_displayed, difference)
+    print("Case #{0}: {1}".format(i + 1, num_clicks))
+
