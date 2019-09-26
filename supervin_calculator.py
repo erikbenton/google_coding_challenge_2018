@@ -24,7 +24,7 @@ def quick_check(number_in, test_num, is_it_negative, number_digits, clicks_in=0)
     start = 0
     if is_it_negative:
         start = 1
-    for j in range(start, start + number_digits):
+    for j in range(start, number_digits):
         if int(str(number_in)[j]) % 2 == 1:
             quick_check = False
             break
@@ -236,7 +236,7 @@ def lazy_version(number_in, test_num, clicks_in=0):
             magnitude = 10 ** trailing_digits
             trailing_num = int(str_displayed[index + 1:])
             upper_bound = 4 * int("1" * trailing_digits)
-            if trailing_num < upper_bound:
+            if trailing_num < upper_bound or current_digit == 9:
                 compare_number = int(str(current_digit - 1) + str(upper_bound * 2))
                 num_clicks = int(str_displayed[index:]) - compare_number
             else:
@@ -271,5 +271,9 @@ def tester():
     return
 
 
-tester()
+choice = str(input("Enter 't' for tester, and anything else for main\n"))
+if choice == "t":
+    tester()
+else:
+    main()
 
