@@ -271,9 +271,10 @@ def tester():
     return
 
 
-choice = str(input("Enter 't' for tester, and anything else for main\n"))
-if choice == "t":
-    tester()
-else:
-    main()
+# choice = str(input("Enter 't' for tester, and anything else for main\n"))
+# if choice == "t":
+#     tester()
+# else:
+#     main()
 
+main()
