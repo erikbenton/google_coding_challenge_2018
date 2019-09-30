@@ -38,7 +38,6 @@ def main():
     num_tests = int(input())
 
     for i in range(num_tests):
-        print(str(i))
         num_balls, num_dips = [int(j) for j in input().split()]
         ball_bag = [int(j) for j in input().split()]
         expected = find_expected_value(ball_bag, num_dips)
