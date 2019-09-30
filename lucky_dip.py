@@ -1,5 +1,6 @@
 import sys
 import numpy as np
+import random as rand
 # PROBLEM
 # You are participating in the Grand Kickstart Lucky Dip with many fantastic
 # and amazing prizes (and some not so good ones)!
@@ -18,17 +19,17 @@ import numpy as np
 
 
 def find_expected_value(values, dips_remaining):
-    expected_value = np.mean(values)
-    expected_list = []
-    for value in values:
-        if value > expected_value:
-            expected_list.append(value)
-        else:
-            expected_list.append(expected_value)
-    if dips_remaining == 0:
+    expected_value = 0
+    for l in range(len(values)):
+        expected_value += values[l]
+    expected_value /= len(values)
+    # expected_value = float(np.mean(values))
+    if dips_remaining <= 0:
         return expected_value
-    else:
-        expected_value = find_expected_value(expected_list, dips_remaining-1)
+    for l in range(len(values)):
+        if values[l] < expected_value:
+            values[l] = expected_value
+    expected_value = find_expected_value(values, dips_remaining-1)
     return expected_value
 
 
@@ -41,8 +42,19 @@ def main():
         num_balls, num_dips = [int(j) for j in input().split()]
         ball_bag = [int(j) for j in input().split()]
         expected = find_expected_value(ball_bag, num_dips)
-        print("Case #{0}: {1:.6f}".format(i + 1, expected))
+        print("Case #{0}: {1}".format(i + 1, expected))
     return
 
 
-main()
+def tester():
+    tests = 1000
+    vi = []
+    for i in range(2*10**4):
+        vi.append(rand.randint(0, 10**9))
+
+    k = rand.randint(0, 5*10**4)
+    expected = find_expected_value(vi, k)
+    print("Case #{0}: {1}".format(i + 1, expected))
+
+# main()
+tester()
