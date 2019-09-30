@@ -17,16 +17,33 @@ import numpy as np
 # what is the expected value of that item?
 
 
-def expected_value(values):
-    result = 0.0
-    for k in range(len(values)):
-        result += values[k]
-    return result/len(values)
+def find_expected_value(values, dips_remaining):
+    expected_value = np.mean(values)
+    expected_list = []
+    for value in values:
+        if value > expected_value:
+            expected_list.append(value)
+        else:
+            expected_list.append(expected_value)
+    if dips_remaining == 0:
+        return expected_value
+    else:
+        expected_value = find_expected_value(expected_list, dips_remaining-1)
+    return expected_value
 
 
-num_tests = int(input())
+# Starts with the major inputs and
+# sets up for recursive calculations
+def main():
+    num_tests = int(input())
 
-for i in range(num_tests):
-    num_balls, num_dips = [int(j) for j in input().split()]
-    ball_bag = [int(j) for j in input().split()]
-    print("Case #{0}: {1}".format(i + 1, 1))
+    for i in range(num_tests):
+        print(str(i))
+        num_balls, num_dips = [int(j) for j in input().split()]
+        ball_bag = [int(j) for j in input().split()]
+        expected = find_expected_value(ball_bag, num_dips)
+        print("Case #{0}: {1:.6f}".format(i + 1, expected))
+    return
+
+
+main()
