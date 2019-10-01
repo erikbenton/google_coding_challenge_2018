@@ -33,6 +33,30 @@ def find_expected_value(values, dips_remaining):
     return expected_value
 
 
+def main_2():
+    num_tests = int(input())
+
+    for i in range(num_tests):
+        num_balls, num_dips = [int(j) for j in input().split()]
+        ball_bag = [int(j) for j in input().split()]
+        # Setup expected value comparisons
+        old_expected_value = np.mean(ball_bag)
+        new_expected_value = np.max(ball_bag)
+        dips_remaining = num_dips
+        # While the new_expected_value >= old_expected_value
+        while True:
+            if new_expected_value <= old_expected_value or dips_remaining == 0:
+                old_expected_value = np.mean(ball_bag)
+                break
+            old_expected_value = np.mean(ball_bag)
+            for j in range(len(ball_bag)):
+                if ball_bag[j] < old_expected_value:
+                    ball_bag[j] = old_expected_value
+            new_expected_value = np.mean(ball_bag)
+            dips_remaining -= 1
+        print("Case #{0}: {1}".format(i + 1, old_expected_value))
+
+
 # Starts with the major inputs and
 # sets up for recursive calculations
 def main():
@@ -57,4 +81,5 @@ def tester():
     print("Case #{0}: {1}".format(i + 1, expected))
 
 # main()
-tester()
+# tester()
+main_2()
