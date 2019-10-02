@@ -18,21 +18,24 @@ import numpy as np
 # (when she got tired of the game and stopped), and she wonders how many turns were in the game in total
 # (that is, how many numbers she said).
 
+
 def check_legality(num):
     # Results array for which cases fail
-    results = [0, 0, 0]
+    results = []
     # Check for natural
-    if num <= 0 and not isinstance(int):
-        results[0] = 1
+    if num <= 0 or not isinstance(num, int):
+        results.append(1)
     # Check for 9 in base 10
     num_str = str(num)
+    digits = []
     for j in range(len(num_str)):
         if num_str[j] == '9':
-            results[1] = 1
-            break
+            digits.append(j)
+    if len(digits) > 1:
+        results.append(digits)
     # Check for divisible by 9
     if num % 9 == 0:
-        results[2] = 1
+        results.append(1)
     return results
 
 
@@ -44,7 +47,7 @@ def main():
         how_many = 0
         while current <= last:
             legality = check_legality(current)
-            if np.sum(legality) == 0:
+            if len(legality) == 0:
                 how_many += 1
             current += 1
         print("Case #{0}: {1}".format(test + 1, how_many))
