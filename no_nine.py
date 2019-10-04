@@ -39,6 +39,20 @@ def check_legality(num):
     return results
 
 
+def escape_9_digit(num):
+    # Find the first 9 in the number
+    # EG - 5991 -> the 9 in 91 is the first 9
+    first_nine = 0
+    num_str = str(num)
+    reversed_num_str = list(reversed(num_str))
+    for j in range(len(num_str)):
+        if reversed_num_str[j] == '9':
+            first_nine = -j
+            print(str(j))
+            break
+
+
+
 def main():
     num_tests = int(input())
     for test in range(num_tests):
@@ -53,5 +67,5 @@ def main():
         print("Case #{0}: {1}".format(test + 1, how_many))
     return
 
-
-main()
+escape_9_digit(5991)
+# main()
