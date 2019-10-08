@@ -20,23 +20,18 @@ import numpy as np
 
 
 def check_legality(num):
-    # Results array for which cases fail
-    results = []
     # Check for natural
     if num <= 0 or not isinstance(num, int):
-        results.append(1)
+        return 1
     # Check for 9 in base 10
     num_str = str(num)
-    digits = []
     for j in range(len(num_str)):
         if num_str[j] == '9':
-            digits.append(j)
-    if len(digits) > 1:
-        results.append(digits)
+            return 2
     # Check for divisible by 9
     if num % 9 == 0:
-        results.append(1)
-    return results
+        return 3
+    return 0
 
 
 def escape_9_digit(num):
@@ -52,9 +47,9 @@ def escape_9_digit(num):
                 for k in range(j, len(new_num)):
                     new_num[k] = "0"
                 new_num = convert_list_int(new_num)
-                return new_num - num, new_num
+                return new_num
             else:
-                return 10**len(num_str) - num, 10**len(num_str)
+                return 10**len(num_str)
     return 0, num
 
 
@@ -74,11 +69,15 @@ def main():
         how_many = 0
         while current <= last:
             legality = check_legality(current)
-            if len(legality) == 0:
+            if legality == 0:
                 how_many += 1
-            current += 1
+                current += 1
+            elif legality == 2:
+                current = escape_9_digit(current)
+            else:
+                current += 1
         print("Case #{0}: {1}".format(test + 1, how_many))
     return
 
-print(str(escape_9_digit(9291)))
-# main()
+# print(str(escape_9_digit(9291)))
+main()
